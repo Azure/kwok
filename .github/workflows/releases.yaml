@@ -46,20 +46,20 @@ jobs:
       if: ${{ github.repository != 'kubernetes-sigs/kwok' }}
       env:
         GH_RELEASE: ${{ github.repository }}
-        IMAGE_PREFIX: ghcr.io/${{ github.repository }}
-        BINARY_PREFIX: https://github.com/${{ github.repository }}/releases/download
+        IMAGE_PREFIX: ghcr.io/azure/kwok
+        BINARY_PREFIX: https://github.com/azure/kwok/releases/download
       run: |
         REF=${{ github.ref }}
         GIT_TAG="${REF##*/}" make manifests cross-build
     - name: Build kwok image
       env:
-        IMAGE_PREFIX: ghcr.io/${{ github.repository }}
+        IMAGE_PREFIX: ghcr.io/azure/kwok
       run: |
         REF=${{ github.ref }}
         GIT_TAG="${REF##*/}" make cross-image
     - name: Build cluster image
       env:
-        IMAGE_PREFIX: ghcr.io/${{ github.repository }}
+        IMAGE_PREFIX: ghcr.io/azure/kwok
       run: |
         REF=${{ github.ref }}
         GIT_TAG="${REF##*/}" make cross-cluster-image
