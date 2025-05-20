@@ -42,6 +42,7 @@ LATEST_KUBE_RELEASE ?= $(shell echo $(SUPPORTED_KUBE_RELEASES) | cut -d ' ' -f 1
 BINARY ?= kwok kwokctl
 
 IMAGE_PREFIX ?=
+IMAGE_PREFIX := $(shell echo $(IMAGE_PREFIX) | tr '[:upper:]' '[:lower:]')
 
 BINARY_PREFIX ?=
 BINARY_NAME ?=
