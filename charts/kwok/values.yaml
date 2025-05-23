@@ -2,9 +2,9 @@ image:
   # -- Image pull policy.
   pullPolicy: IfNotPresent
   # -- Image repository.
-  repository: registry.k8s.io/kwok/kwok
+  repository: ghcr.io/azure/kwok/kwok
   # -- Overrides the image tag whose default is {{ .Chart.AppVersion }}.
-  tag: ""
+  tag: "v0.8.0-alpha"
 
 # -- Image pull secrets.
 imagePullSecrets: []
@@ -19,7 +19,11 @@ podSecurityContext: {}
 securityContext: {}
 
 nodeSelector: {}
-resources: {}
+resources:
+  requests:
+    cpu: "30"
+  limits:
+    cpu: "30"
 affinity: {}
 
 # -- The replica count for Deployment.
@@ -44,5 +48,8 @@ env:
   valueFrom:
     fieldRef:
       fieldPath: status.hostIP
+- name: GOMAXPROCS
+  value: "30"
+
 volumeMounts: []
 enableDeployment: true
