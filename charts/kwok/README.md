@@ -13,7 +13,7 @@ helm repo add kwok https://kwok.sigs.k8s.io/charts/
 After you've installed the repo you can install the chart.
 
 ```shell
-helm upgrade --namespace kube-system --install kwok kwok/kwok
+helm upgrade --namespace kwok-system --install kwok-1 ./kwok/ --set replicas 200
 ```
 
 Set up default stage policy (required)

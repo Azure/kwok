@@ -1,0 +1,41 @@
+{{- $root := . }}
+{{- range $i := until (int $root.Values.replicas) }}
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: {{ include "kwok.fullname" $root }}-{{ $i }}
+  annotations:
+    node.alpha.kubernetes.io/ttl: "0"
+    kwok.x-k8s.io/node: fake
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
+    kubernetes.io/hostname: {{ include "kwok.fullname" $root }}-{{ $i }}
+    kubernetes.io/os: linux
+    kubernetes.io/role: agent
+    node-role.kubernetes.io/agent: ""
+    type: kwok
+spec:
+  providerID: kwok://{{ include "kwok.fullname" $root }}-{{ $i }}
+  taints:
+  {{- toYaml $root.Values.node.taints | nindent 2 }}
+status:
+  allocatable:
+    {{- toYaml $root.Values.node.allocatable | nindent 4 }}
+  capacity:
+    {{- toYaml $root.Values.node.capacity | nindent 4 }}
+  nodeInfo:
+    architecture: amd64
+    bootID: ""
+    containerRuntimeVersion: ""
+    kernelVersion: ""
+    kubeProxyVersion: fake
+    kubeletVersion: fake
+    machineID: ""
+    operatingSystem: linux
+    osImage: ""
+    systemUUID: ""
+  phase: Running
+{{- end }}
