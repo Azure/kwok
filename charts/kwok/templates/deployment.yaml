@@ -1,12 +1,13 @@
 {{ if .Values.enableDeployment }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "kwok.fullname" . }}
   labels:
     {{- include "kwok.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
+  podManagementPolicy: Parallel
   selector:
     matchLabels:
       {{- include "kwok.selectorLabels" . | nindent 6 }}
@@ -31,6 +32,7 @@ spec:
         args:
         - --config=/root/.kwok/kwok.yaml
         - --node-ip=$(POD_IP)
+        - --manage-single-node=$(POD_NAME)
         env:
           {{ toYaml .Values.env | nindent 10 }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
